@@ -5,8 +5,8 @@ Packages to use:
 * Vue 3
 * Typescript
 * Vue-Router
-* Pinia
-* Axios
-* UI framework - Vuetfiy 3 - [https://quasar.dev/](https://vuetifyjs.com/en/)
+* Pinia - for state
+* Axios - For api requests
+* UI framework - Vuetfiy 3 - [Vuetify](https://vuetifyjs.com/en/)
 * Authentication - Mongodb backend
-* Api to use - ZenQuoutes - https://zenquotes.io/ (fetch one quote per day)
+* Api to use - ZenQuoutes - [Quoutes]https://zenquotes.io/ (fetch one quote per day)
