@@ -1,0 +1,20 @@
+export const ranks = [
+  // Value = number of days
+  { title: "Footman", value: 1, id: 1 },
+  { title: "Esquire", value: 3, id: 2 },
+  { title: "GuardsMan", value: 5, id: 3 },
+  { title: "Man-at-Arms", value: 7, id: 4 },
+  { title: "Sergeant of the Guard", value: 10, id: 5 },
+  { title: "Sergeant-at-Arms", value: 14, id: 6 },
+  { title: "Master GuardsMan", value: 21, id: 7 },
+  { title: "Master-at-Arms", value: 30, id: 8 },
+  { title: "High Warden", value: 60, id: 9 },
+  { title: "Lieutenant", value: 90, id: 10 },
+  { title: "Commander", value: 120, id: 11 },
+  { title: "Third Marshall", value: 150, id: 12 },
+  { title: "Second Marshall", value: 180, id: 13 },
+  { title: "First Marshall", value: 240, id: 14 },
+  { title: "Captain-General", value: 300, id: 15 },
+  { title: "High Overlord", value: 365, id: 15 },
+  { title: "The Immortal", value: 500, id: 15 },
+];
