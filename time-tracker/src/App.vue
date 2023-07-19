@@ -1,9 +1,7 @@
 <template>
   <v-app>
     <v-app-bar color="#EBE3D0" dense promient app>
-      <v-toolbar-title style="color: #a4770d"
-        >Lord Of The Rings Themed Tracker</v-toolbar-title
-      >
+      <v-toolbar-title style="color: #a4770d">Time Tracker</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <div v-for="item in items" :key="item.id">

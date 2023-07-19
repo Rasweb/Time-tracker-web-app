@@ -2,9 +2,7 @@
   <div>
     <v-img height="40%" src="../assets/hobbit-background.jpg">
       <div class="center-box">
-        <div style="background-color: #ebe3d0">
-          My Lord of the Rings themed time tracker
-        </div>
+        <div style="background-color: #ebe3d0">Welcome to my Time tracker</div>
       </div>
     </v-img>
   </div>

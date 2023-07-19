@@ -2,7 +2,6 @@
 
 This is my Time Tracker web app. An authentication app using Vue 3 and mongodb.
 
-App theme: Lord of the Rings
 Images from [Pixabay](https://pixabay.com/) royalty-free images
 
 Packages to use:
