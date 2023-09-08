@@ -15,11 +15,24 @@
                     Start or conntinue your tracker
                   </v-card-subtitle>
                   <v-card-actions>
-                    <v-btn outlined class="action-btn">Start</v-btn>
+                    <v-btn
+                      outlined
+                      class="action-btn"
+                      @click="createDate"
+                      v-if="!create"
+                      >Create</v-btn
+                    >
                     <v-btn outlined class="action-btn" @click="doLogout"
                       >Logout</v-btn
                     >
                   </v-card-actions>
+                </v-card>
+                <v-card class="sub-container mt-2">
+                  <v-card-title class="text-h5 text-color">
+                    Current streak
+                  </v-card-title>
+                  <div v-if="startDate != ''">empty</div>
+                  <div>not empty? {{ startDate }}</div>
                 </v-card>
               </v-col>
             </v-row>
@@ -103,16 +116,24 @@ import { ref, onMounted } from "vue";
 import PocketBase from "pocketbase";
 import LoginPage from "@/components/auth/login-page.vue";
 import RegisterPage from "@/components/auth/register-page.vue";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 
 let pb: PocketBase | null = null;
+let userObj: any = null;
+const id: ref<string> = ref("");
 const currentUser = ref();
 const username = ref("");
 const email = ref("");
 const password = ref("");
 const fullName = ref("");
+const startDate = ref("");
 
+const create = ref(false);
 const loginDialog = ref(false);
 const registerDialog = ref(false);
+
+dayjs.extend(utc);
 
 onMounted(async () => {
   pb = new PocketBase("http://127.0.0.1:8090");
@@ -122,11 +143,52 @@ onMounted(async () => {
   }, true);
 });
 
-const adminLog = () => {};
+// Check if current user has a start date
+const checkDate = async () => {
+  const record = await pb?.collection("Start_Date").getOne(id.value);
+
+  record?.items.forEach((element: any) => {
+    if (element.connected_user === userObj.record.id) {
+      create.value = true;
+      console.log("element", element);
+      let time = dayjs(element.date).utc();
+      console.log("Correct time?", time);
+      let format = time.format("YYYY-MM-DD HH:mm:ss");
+      startDate.value = format;
+    }
+  });
+};
+
+// Creates a date for the user
+const createDate = async () => {
+  if (create.value === false) {
+    if (userObj) {
+      let iso = dayjs().toISOString();
+
+      try {
+        const data = {
+          date: iso,
+          connected_user: userObj.record.id,
+        };
+
+        const record = await pb?.collection("Start_Date").create(data);
+        console.log("record", record);
+        id.value = record?.id;
+        console.log("record", record?.date);
+        startDate.value = record?.date;
+
+        // startDate.value = record
+      } catch (error: any) {
+        console.log("error", error);
+      }
+    }
+  }
+};
 
 const doLogout = () => {
   pb?.authStore.clear();
   currentUser.value = null;
+  create.value = false;
 };
 
 const doLogin = async () => {
@@ -135,19 +197,17 @@ const doLogin = async () => {
       ?.collection("users")
       .authWithPassword(email.value, password.value);
 
-    // after the above you can also access the auth data from the authStore
-    console.log(pb?.authStore.isValid);
-    console.log(pb?.authStore.token);
-    console.log(pb?.authStore.model);
-    // currentUser.value = pb?.authStore.model
+    userObj = authData;
     username.value = "";
     password.value = "";
     email.value = "";
     loginDialog.value = false;
     registerDialog.value = false;
     console.log(currentUser.value);
+    checkDate();
   } catch (error: any) {
     alert(error.message);
+    console.log("ss", error);
   }
 };
 
@@ -172,9 +232,6 @@ const doCreateAccount = async () => {
 
 //
 </script>
-
-<!-- </script> -->
-
 <style lang="scss">
 .main-container {
   background-color: $primary-background-light;
